@@ -13,7 +13,7 @@
 <meta property="og:description" content="Another:Anysun转载请注明出处，谢谢">
 <meta property="og:image" content="http://www.anysuns.com/2015/08/13/kali2-init-setting/kali-linux-2-0-released.png">
 <meta property="og:image" content="http://www.anysuns.com/2015/08/13/kali2-init-setting/Kali-Desktop.png">
-<meta property="og:updated_time" content="2015-08-13T09:54:22.582Z">
+<meta property="og:updated_time" content="2015-08-13T11:24:34.431Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Kali 2.0安装以及安装之后的简单设置">
 <meta name="twitter:description" content="Another:Anysun转载请注明出处，谢谢">
@@ -319,7 +319,8 @@
 <h3 id="升级安装">升级安装</h3><blockquote>
 <p>apt-get install git live-build cdebootstrap<br>git clone git://git.kali.org/live-build-config.git<br>cd live-build-config<br>./build.sh –distribution sana –verbose</p>
 </blockquote>
-<h1 id="配置">配置</h1><h3 id="更改国内源">更改国内源</h3><p>修改sources.list文件：<br>leafpad /etc/apt/sources.list<br>然后选择适合自己较快的源：<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#中科大kali源</span></span><br><span class="line">deb http:<span class="comment">//mirrors.ustc.edu.cn/kali sana main non-free contrib</span></span><br><span class="line">deb http:<span class="comment">//mirrors.ustc.edu.cn/kali-security/ sana/updates main contrib non-free</span></span><br><span class="line">deb-src http:<span class="comment">//mirrors.ustc.edu.cn/kali-security/ sana/updates main contrib non-free</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#阿里云kali源</span></span><br><span class="line">deb http:<span class="comment">//mirrors.aliyun.com/kali sana main non-free contrib</span></span><br><span class="line">deb http:<span class="comment">//mirrors.aliyun.com/kali-security/ sana/updates main contrib non-free</span></span><br><span class="line">deb-src http:<span class="comment">//mirrors.aliyun.com/kali-security/ sana/updates main contrib non-free</span></span><br></pre></td></tr></table></figure></p>
+<h1 id="配置">配置</h1><h3 id="更改国内源">更改国内源</h3><p>修改sources.list文件：</p>
+<p><font color="#ff0000">leafpad /etc/apt/sources.list</font><br>然后选择适合自己较快的源：<br><figure class="highlight vala"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="preprocessor">#中科大kali源</span></span><br><span class="line">deb http:<span class="comment">//mirrors.ustc.edu.cn/kali sana main non-free contrib</span></span><br><span class="line">deb http:<span class="comment">//mirrors.ustc.edu.cn/kali-security/ sana/updates main contrib non-free</span></span><br><span class="line">deb-src http:<span class="comment">//mirrors.ustc.edu.cn/kali-security/ sana/updates main contrib non-free</span></span><br><span class="line"></span><br><span class="line"><span class="preprocessor">#阿里云kali源</span></span><br><span class="line">deb http:<span class="comment">//mirrors.aliyun.com/kali sana main non-free contrib</span></span><br><span class="line">deb http:<span class="comment">//mirrors.aliyun.com/kali-security/ sana/updates main contrib non-free</span></span><br><span class="line">deb-src http:<span class="comment">//mirrors.aliyun.com/kali-security/ sana/updates main contrib non-free</span></span><br></pre></td></tr></table></figure></p>
 <h3 id="更新系统">更新系统</h3><blockquote>
 <p>apt-get update<br>apt-get dist-upgrade</p>
 </blockquote>
@@ -327,7 +328,8 @@
 <blockquote>
 <p>apt-get install linux-headers-$(uname -r)</p>
 </blockquote>
-
+<p>最后分享一个Kali2.0官方宣传视频</p>
+<iframe src="https://player.vimeo.com/video/132329259" width="500" height="281" frameborder="0" webkitallowfullscreen="" mozallowfullscreen="" allowfullscreen></iframe>
       
     </div>
     
