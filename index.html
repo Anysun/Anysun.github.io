@@ -114,7 +114,7 @@
 				
 				<section class="switch-part switch-part2">
 					<div class="widget tagcloud" id="js-tagcloud">
-						<a href="/tags/CVE/" style="font-size: 10px;">CVE</a> <a href="/tags/Exploit/" style="font-size: 10px;">Exploit</a> <a href="/tags/Kali/" style="font-size: 10px;">Kali</a> <a href="/tags/Linux/" style="font-size: 10px;">Linux</a> <a href="/tags/MS15-051/" style="font-size: 10px;">MS15-051</a> <a href="/tags/Pixiewps/" style="font-size: 10px;">Pixiewps</a> <a href="/tags/Reaver/" style="font-size: 10px;">Reaver</a> <a href="/tags/WPS/" style="font-size: 10px;">WPS</a> <a href="/tags/anysun/" style="font-size: 10px;">anysun</a> <a href="/tags/fierce/" style="font-size: 10px;">fierce</a> <a href="/tags/hello/" style="font-size: 10px;">hello</a> <a href="/tags/jekyll/" style="font-size: 10px;">jekyll</a> <a href="/tags/kali/" style="font-size: 16.67px;">kali</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/pixie/" style="font-size: 10px;">pixie</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/wifi/" style="font-size: 10px;">wifi</a> <a href="/tags/拉取/" style="font-size: 10px;">拉取</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a>
+						<a href="/tags/CVE/" style="font-size: 10px;">CVE</a> <a href="/tags/Exploit/" style="font-size: 10px;">Exploit</a> <a href="/tags/Hack/" style="font-size: 10px;">Hack</a> <a href="/tags/Heartbleed/" style="font-size: 10px;">Heartbleed</a> <a href="/tags/Kali/" style="font-size: 13.33px;">Kali</a> <a href="/tags/Linux/" style="font-size: 13.33px;">Linux</a> <a href="/tags/MS15-051/" style="font-size: 10px;">MS15-051</a> <a href="/tags/Pixiewps/" style="font-size: 10px;">Pixiewps</a> <a href="/tags/Reaver/" style="font-size: 10px;">Reaver</a> <a href="/tags/WPS/" style="font-size: 10px;">WPS</a> <a href="/tags/anysun/" style="font-size: 10px;">anysun</a> <a href="/tags/fierce/" style="font-size: 10px;">fierce</a> <a href="/tags/hello/" style="font-size: 10px;">hello</a> <a href="/tags/jekyll/" style="font-size: 10px;">jekyll</a> <a href="/tags/kali/" style="font-size: 16.67px;">kali</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/pixie/" style="font-size: 10px;">pixie</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/wifi/" style="font-size: 10px;">wifi</a> <a href="/tags/拉取/" style="font-size: 10px;">拉取</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a>
 					</div>
 				</section>
 				
@@ -195,6 +195,65 @@
 	</div>
 </nav>
       <div class="body-wrap">
+  
+    <article id="post-Heartbleed-Hacking-In-Kali-Linux" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/" class="article-date">
+  	<time datetime="2015-11-09T11:46:47.000Z" itemprop="datePublished">2015-11-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/">Heartbleed Hacking In Kali Linux</a>
+    </h1>
+  
+
+      </header>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>修改自：<a href="http://xiao106347.blog.163.com/blog/static/215992078201464059117/">http://xiao106347.blog.163.com</a><br><img src="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/title.png" alt="Heartbleed" title="Heartbleed"><br>Heartbleed漏洞(CVE-2014-0160)就是用户通过TSL 加密链接向服务器发起 Client Hello询问，测服务器是否正常在线干活(形象的比喻就是心脏脉搏)，服务器发回Server hello，表明正常建立SSL通信。每次询问都会附加一个询问的字符长度pad length，bug来了，如果这个pad length大于实际的长度，服务器还是会返回同样规模的字符信息，于是造成了内存里信息的越界访问…</p>
+<p>接下来这里就演示下分别用两个工具利用心脏出血漏洞读取服务器内存信息。<font color="#FF0000">因为内存里的信息不是一成不变的，所以不是每次都会出好东西的，所以要多爆几次。</font><br>
+      
+    </div>
+    
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hack/">Hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Heartbleed/">Heartbleed</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kali/">Kali</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a  href="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/#more">more >></a>
+        </p>
+      
+      <div class="clearfix"></div>
+    </div>
+    
+  </div>
+  
+</article>
+
+
+
+
+
+
+
   
     <article id="post-Pixie-Dust-Attack-WPS-in-Kali-Linux-with-Reaver" class="article article-type-post" itemscope itemprop="blogPost">
   

