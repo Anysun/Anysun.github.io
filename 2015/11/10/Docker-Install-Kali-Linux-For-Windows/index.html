@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <title>Docker Install Kali Linux For Windows | Anysun</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Author:Anysun转载请注明出处，谢谢
+参考:蘑菇哥的《Docker install Kali Linux》
+在逛蘑菇哥的Blog发现上面链接的文章比较不错，想要尝试一翻，但可惜蘑菇哥在Macbook Pro下玩耍的。好吧，那我也在Windows下也学习学习。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Docker Install Kali Linux For Windows">
+<meta property="og:url" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/index.html">
+<meta property="og:site_name" content="Anysun">
+<meta property="og:description" content="Author:Anysun转载请注明出处，谢谢
+参考:蘑菇哥的《Docker install Kali Linux》
+在逛蘑菇哥的Blog发现上面链接的文章比较不错，想要尝试一翻，但可惜蘑菇哥在Macbook Pro下玩耍的。好吧，那我也在Windows下也学习学习。">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/docker.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/win_ver.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/virtualization.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/havd.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/icon-set.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/down_kali.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/image_id.png">
+<meta property="og:image" content="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/run_kali.png">
+<meta property="og:updated_time" content="2015-11-11T08:50:26.320Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Docker Install Kali Linux For Windows">
+<meta name="twitter:description" content="Author:Anysun转载请注明出处，谢谢
+参考:蘑菇哥的《Docker install Kali Linux》
+在逛蘑菇哥的Blog发现上面链接的文章比较不错，想要尝试一翻，但可惜蘑菇哥在Macbook Pro下玩耍的。好吧，那我也在Windows下也学习学习。">
+  
+    <link rel="alternative" href="/atom.xml" title="Anysun" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  <link rel="stylesheet" href="/css/style.css" type="text/css">
+</head>
+<body>
+  <div id="container">
+    <div class="left-col">
+    <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img lazy-src="/img/anysun.png" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">Anysun</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">No pains No gains</p>
+		
+
+		
+			<div class="switch-btn">
+				<div class="icon">
+					<div class="icon-ctn">
+						<div class="icon-wrap icon-house" data-idx="0">
+							<div class="birdhouse"></div>
+							<div class="birdhouse_holes"></div>
+						</div>
+						<div class="icon-wrap icon-ribbon hide" data-idx="1">
+							<div class="ribbon"></div>
+						</div>
+						
+						<div class="icon-wrap icon-link hide" data-idx="2">
+							<div class="loopback_l"></div>
+							<div class="loopback_r"></div>
+						</div>
+						
+						
+						<div class="icon-wrap icon-me hide" data-idx="3">
+							<div class="user"></div>
+							<div class="shoulder"></div>
+						</div>
+						
+					</div>
+					
+				</div>
+				<div class="tips-box hide">
+					<div class="tips-arrow"></div>
+					<ul class="tips-inner">
+						<li>菜单</li>
+						<li>标签</li>
+						
+						<li>友情链接</li>
+						
+						
+						<li>关于我</li>
+						
+					</ul>
+				</div>
+			</div>
+		
+
+		<div class="switch-area">
+			<div class="switch-wrap">
+				<section class="switch-part switch-part1">
+					<nav class="header-menu">
+						<ul>
+						
+							<li><a href="/">主页</a></li>
+				        
+							<li><a href="/archives">所有文章</a></li>
+				        
+						</ul>
+					</nav>
+					<nav class="header-nav">
+						<div class="social">
+							
+								<a class="github" target="_blank" href="/#" title="github">github</a>
+					        
+								<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+					        
+								<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+					        
+								<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+					        
+						</div>
+					</nav>
+				</section>
+				
+				
+				<section class="switch-part switch-part2">
+					<div class="widget tagcloud" id="js-tagcloud">
+						<a href="/tags/CVE/" style="font-size: 10px;">CVE</a> <a href="/tags/Docker/" style="font-size: 10px;">Docker</a> <a href="/tags/Exploit/" style="font-size: 10px;">Exploit</a> <a href="/tags/Hack/" style="font-size: 10px;">Hack</a> <a href="/tags/Heartbleed/" style="font-size: 10px;">Heartbleed</a> <a href="/tags/Kali/" style="font-size: 16.67px;">Kali</a> <a href="/tags/Linux/" style="font-size: 16.67px;">Linux</a> <a href="/tags/MS15-051/" style="font-size: 10px;">MS15-051</a> <a href="/tags/Pixiewps/" style="font-size: 10px;">Pixiewps</a> <a href="/tags/Reaver/" style="font-size: 10px;">Reaver</a> <a href="/tags/WPS/" style="font-size: 10px;">WPS</a> <a href="/tags/Windows/" style="font-size: 10px;">Windows</a> <a href="/tags/anysun/" style="font-size: 10px;">anysun</a> <a href="/tags/fierce/" style="font-size: 10px;">fierce</a> <a href="/tags/hello/" style="font-size: 10px;">hello</a> <a href="/tags/jekyll/" style="font-size: 10px;">jekyll</a> <a href="/tags/kali/" style="font-size: 16.67px;">kali</a> <a href="/tags/linux/" style="font-size: 20px;">linux</a> <a href="/tags/pixie/" style="font-size: 10px;">pixie</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/ubuntu/" style="font-size: 13.33px;">ubuntu</a> <a href="/tags/wifi/" style="font-size: 10px;">wifi</a> <a href="/tags/拉取/" style="font-size: 10px;">拉取</a> <a href="/tags/爬虫/" style="font-size: 10px;">爬虫</a>
+					</div>
+				</section>
+				
+				
+				
+				<section class="switch-part switch-part3">
+					<div id="js-friends">
+					
+			          <a target="_blank" class="main-nav-link switch-friends-link" href="http://www.anysuns.com/">Me</a>
+			        
+			        </div>
+				</section>
+				
+
+				
+				
+				<section class="switch-part switch-part4">
+				
+					<div id="js-aboutme">我是谁，我从哪里来，我到哪里去？我就是我，是颜色不一样的吃货…</div>
+				</section>
+				
+			</div>
+		</div>
+	</header>				
+</div>
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"></div>
+  		<h1 class="header-author js-mobile-header hide">Anysun</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				<img lazy-src="/img/anysun.png" class="js-avatar">
+			</div>
+			<hgroup>
+			  <h1 class="header-author">Anysun</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">No pains No gains</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/archives">所有文章</a></li>
+		        
+		        <div class="clearfix"></div>
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="/#" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="/#" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/#" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="/#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+      <div class="body-wrap"><article id="post-Docker-Install-Kali-Linux-For-Windows" class="article article-type-post" itemscope itemprop="blogPost">
+  
+    <div class="article-meta">
+      <a href="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/" class="article-date">
+  	<time datetime="2015-11-11T07:18:22.000Z" itemprop="datePublished">2015-11-10</time>
+</a>
+    </div>
+  
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Docker Install Kali Linux For Windows
+    </h1>
+  
+
+      </header>
+      
+      <div class="article-info article-info-post">
+        
+	<div class="article-tag tagcloud">
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Docker/">Docker</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Kali/">Kali</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Windows/">Windows</a></li></ul>
+	</div>
+
+        
+
+        <div class="clearfix"></div>
+      </div>
+      
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Author:Anysun<br>转载请注明出处，谢谢<br><img src="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/docker.png" alt="Docker" title="Docker"></p>
+<p>参考:蘑菇哥的《<a href="http://linux.im/2015/05/28/kali-linux-docker.html" target="_blank" rel="external">Docker install Kali Linux</a>》</p>
+<p>在逛蘑菇哥的Blog发现上面链接的文章比较不错，想要尝试一翻，但可惜蘑菇哥在Macbook Pro下玩耍的。好吧，那我也在Windows下也学习学习。<br><a id="more"></a></p>
+<p>以下引用蘑菇哥的文章：</p>
+<h2 id="什么是_Docker"><strong>什么是 Docker</strong></h2><p>Docker 是一个开源的应用容器引擎，让开发者可以打包他们的应用以及依赖包到一个可移植的容器中，然后发布到任何流行的 Linux 机器上，也可以实现虚拟化。容器是完全使用沙箱机制，相互之间不会有任何接口（类似 iPhone 的 app）。几乎没有性能开销,可以很容易地在机器和数据中心中运行。最重要的是,他们不依赖于任何语言、框架包括系统。</p>
+<h2 id="为什么要使用_Docker"><strong>为什么要使用 Docker</strong></h2><p>作为一种新兴的虚拟化方式，Docker 跟传统的虚拟化方式相比具有众多的优势。</p>
+<p>首先，Docker 容器的启动可以在秒级实现，这相比传统的虚拟机方式要快得多。 其次，Docker 对系统资源的利用率很高，一台主机上可以同时运行数千个 Docker 容器。</p>
+<p>容器除了运行其中应用外，基本不消耗额外的系统资源，使得应用的性能很高，同时系统的开销尽量小。传统虚拟机方式运行 10 个不同的应用就要起 10 个虚拟机，而Docker 只需要启动 10 个隔离的应用即可。</p>
+<p>具体说来，Docker 在如下几个方面具有较大的优势：</p>
+<blockquote>
+<ul>
+<li>更快速的交付和部署</li>
+<li>更高效的虚拟化</li>
+<li>更轻松的迁移和扩展</li>
+<li>更简单的管理</li>
+</ul>
+</blockquote>
+<p>看起来棒棒的，有木有，有木有。然后蘑菇哥开始在Mac OS下无尽的玩耍了，我也要开始在Windows下安装了。</p>
+<h2 id="Install_Docker_for_Windows"><strong>Install Docker for Windows</strong></h2><p>由于Docker依赖于Linux特有的特性，你不能在Windows中本地运行。相反，你必须安装Docker Tools应用。这个应用会安装VirtualBox Virtual Machine(VirtualBox虚拟机)、Docker 和 Docker Toolbox管理工具。这3个小东西可以让你在Windows中运行Docker。</p>
+<h2 id="第一步：检查你的系统"><strong>第一步：检查你的系统</strong></h2><p>1、你的主机必须运行在Windows 7.1，8/8.1或者更新的系统。<br><img src="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/win_ver.png" alt="Win Version" title="Win Version"></p>
+<p>2、确保你的Windows系统支持硬件虚拟化技术，并且虚拟化是启用的。</p>
+<h4 id="Windows_8/8-1"><strong>Windows 8/8.1</strong></h4><p>在任务管理器中Performance选项卡中，在CPU下面，你可以看到：<br><img src="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/virtualization.png" alt="Virtualization" title="Virtualization"><br>如果虚拟化没有启用，你需要启用它。</p>
+<h4 id="Windows7"><strong>Windows7</strong></h4><p>需要到微软官方网站下载<a href="http://www.microsoft.com/en-us/download/details.aspx?id=592" target="_blank" rel="external">Microsoft® Hardware-Assisted Virtualization Detection Tool </a>工具，来检查虚拟化是否启用，如果启用，你可以看到：<br><img src="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/havd.png" alt="HAVD" title="HAVD"></p>
+<h2 id="第二步：安装Docker_Toolbox"><strong>第二步：安装Docker Toolbox</strong></h2><p>在官网下载Docker Toolsbox：<a href="https://www.docker.com/docker-toolbox" target="_blank" rel="external">点击下载</a><br>安装没什么好说的了，Next Next Next Next….<br>安装成功后能找到3个图标：<br><img src="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/icon-set.png" alt="Icon Set" title="Icon Set"></p>
+<h2 id="在Docker中安装Kali"><strong>在Docker中安装Kali</strong></h2><p>运行Docker Quickstart Terminal，然后拉取Kali的镜像，输入</p>
+<blockquote>
+<p>$ docker pull kalilinux/kali-linux-docker</p>
+</blockquote>
+<p>直到下载检查确认完毕。<br><img src="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/down_kali.png" alt="Down Kali" title="Down Kali"></p>
+<p>查看镜像,输入</p>
+<blockquote>
+<p>$ docker images</p>
+</blockquote>
+<img src="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/image_id.png" alt="Image ID" title="Image ID">
+<p>可以查看到镜像ID，说明已经安装完毕，这时我们启动Kali系统，直接输入</p>
+<blockquote>
+<p>$ docker run -i -t [IMAGE ID] /bin/bash</p>
+</blockquote>
+<p>会启动失败，错误提示</p>
+<p><code>cannot enable tty mode on non tty input</code></p>
+<p>这个问题是MINGW64这些工具产生的，而不是docker本身产生的。而且这个问题还没有被关闭，所以等以后应该会有更好的解决方案吧。</p>
+<p>这里有两种解决方案：<br>第一种在命令前面加上winpty</p>
+<blockquote>
+<p>$ winpty docker run -it ubuntu /bin/bash</p>
+</blockquote>
+<p>第二种方案更好</p>
+<blockquote>
+<p>$ docker-machine ssh default</p>
+<p>$ docker run -it ubuntu /bin/bash</p>
+</blockquote>
+<p>这样可以正常运行了<br><img src="/2015/11/10/Docker-Install-Kali-Linux-For-Windows/run_kali.png" alt="Run Kali" title="Run Kali"></p>
+<h2 id="Windows版本中Docker的优缺点"><strong>Windows版本中Docker的优缺点</strong></h2><p>我在入门中新手上手体验的感觉</p>
+<h4 id="优点"><strong>优点</strong></h4><blockquote>
+<ul>
+<li>容器的启动速度确实很快</li>
+<li>镜像、容器管理很方便</li>
+<li>还有很多很多。。。</li>
+</ul>
+</blockquote>
+<h4 id="缺点"><strong>缺点</strong></h4><blockquote>
+<ul>
+<li>新手不太容易上手，每次对容器的修改保存都需要commit等等</li>
+<li>Docker需要依赖VirtualBox启动，总有种上当了的感觉。</li>
+<li>没有一丢丢图形界面，新手上手难度较大。</li>
+</ul>
+</blockquote>
+
+      
+    </div>
+    
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2015/11/09/Heartbleed-Hacking-In-Kali-Linux/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">Heartbleed Hacking In Kali Linux</div>
+      <strong class="article-nav-caption">></strong>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+
+<div class="share">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">分享到：</span>
+		<a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+		<a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="http://v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+<div class="duoshuo">
+	<!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="Docker-Install-Kali-Linux-For-Windows" data-title="Docker Install Kali Linux For Windows" data-url="http://anysun.gitcafe.io/2015/11/10/Docker-Install-Kali-Linux-For-Windows/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"true"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+	<!-- 多说公共JS代码 end -->
+</div>
+
+
+
+
+</div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2015 Anysun
+    	</div>
+      	<div class="footer-right">
+      		Powered By <a href="http://www.anysuns.com" target="_blank">Anysun</a>  Theme By Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+
+    </div>
+    
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" type="text/css">
+
+
+<script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false
+	}
+</script>
+<script src="http://7.url.cn/edu/jslib/comb/require-2.1.6,jquery-1.9.1.min.js" type="text/javascript"></script>
+<script src="/js/main.js" type="text/javascript"></script>
+
+
+
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';                 
+    }       
+});
+</script>
+
+<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+
+
+  </div>
+</body>
+</html>
